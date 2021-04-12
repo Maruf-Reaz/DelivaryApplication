@@ -1,0 +1,145 @@
+﻿@model IEnumerable<DeliveryApp.Models.Package>
+
+@{
+    ViewData["Title"] = "Today's Packages";
+}
+
+@section Css {
+    @{await Html.RenderPartialAsync("_DataTableCssPartial");}
+}
+
+@section Sole {
+    <style>
+
+
+        .table tr th:last-child {
+            width: 100px;
+        }
+
+        .table tr th {
+            text-align: center;
+        }
+
+        .table tr td {
+            text-align: center;
+        }
+    </style>
+}
+
+<div class="container-fluid mt-4">
+    <div class="card animated fadeIn overflow-hidden">
+        <div class="card-header p-3">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h3 class="mb-0 skewed skewed-yellow text-dark d-inline-block text-uppercase ls-1">@ViewBag.DM.Name</h3>
+                </div>
+                <div class="col-md-6 text-right">
+                    <h3 class="mb-0 skewed skewed-yellow text-dark d-inline-block text-uppercase ls-1">@ViewBag.DM.DeliveryManIdNo</h3>
+                </div>
+            </div>
+        </div>
+        <div class="card-body px-0 pb-2">
+            <div class="">
+
+                <table class="table align-items-center table-responsive-sm table-striped table-bordered" id="datatable-basic">
+                    <thead class="thead-light">
+                        <tr>
+
+                            <th colspan="9" style="margin-bottom : 2px">
+                                @String.Format("{0:dd-MM-yyyy}", DateTime.Now)
+                            </th>
+                            
+
+                        </tr>
+
+                        <tr>
+
+                            <th>
+                                Merchant Name
+                            </th>
+                            <th>
+                                Merchant Id
+                            </th>
+                            <th>
+                                From
+                            </th>
+                            <th>
+                                To
+                            </th>
+                            <th>
+                                Phone
+                            </th>
+                            <th>
+                                Tracking No
+                            </th>
+                            <th>
+                                Package Price
+                            </th>
+                            <th>
+                                Delivary Price
+                            </th>
+                            <th>
+                                Total
+                            </th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    @item.PickUpRequest.Merchant.Name
+                                </td>
+                                <td>
+                                    @item.PickUpRequest.Merchant.MerchantIdNo
+                                </td>
+                                <td>
+                                    @item.PickUpRequest.LocationFrom.Name
+                                </td>
+                                <td>
+                                    @item.LocationTo.Name
+                                </td>
+
+                                  <td>
+                                    @item.PhoneNumber
+                                </td>
+                                <td>
+                                    @item.TrackingNumber
+                                </td>
+                                 <td>
+                                    @item.ProductPrice
+                                </td>
+                                 <td>
+                                    @item.Price
+                                </td>
+                                @{ 
+                                    double? total = item.ProductPrice + item.Price;
+                                }
+                                 <td>
+                                    @total
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script asp-append-version="true" type="text/javascript" src="~/vendor/datatable/js/jquery.dataTables.min.js"></script>
+    <script asp-append-version="true" type="text/javascript" src="~/vendor/datatable/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript">
+
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,292 @@
+﻿@model DeliveryApp.Models.ViewModels.FromDateToDateViewModel
+
+@{
+    ViewData["Title"] = "All Packages";
+}
+
+@section Css {
+    @{await Html.RenderPartialAsync("_DataTableCssPartial");}
+}
+
+@section Sole {
+    <style>
+
+
+        .table tr th:last-child {
+            width: 160px;
+        }
+
+        .table tr th {
+            text-align: center;
+        }
+
+        .table tr td {
+            text-align: center;
+        }
+    </style>
+}
+
+<div class="container-fluid mt-4">
+    <div class="card animated fadeIn overflow-hidden">
+        <form asp-action="MerchantAllPackageIndex">
+            <div class="card-header ">
+                <div class="row">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input asp-for="Id" class="form-control" hidden value="" />
+                    <label class=" form-control shadow-none--hover skewed skewed-yellow hover btn btn-greenyellow text-center col-lg-2">From</label>
+                    <input asp-for="FromDate" readonly class="form-control form-control-sm mr-2 datepicker text-center col-lg-3" value="@String.Format("{0:yyyy-MM-dd}", ViewBag.FromDate)" placeholder="From" />
+                    <label class="form-control shadow-none--hover hover  skewed skewed-yellow  btn btn-greenyellow text-center col-lg-2">To</label>
+                    <input asp-for="ToDate" readonly class="form-control form-control-sm mr-2 datepicker text-center col-lg-3" value="@String.Format("{0:yyyy-MM-dd}", ViewBag.ToDate)" placeholder="To" />
+
+                    <button type="submit" class="form-control btn btn-primary btn-sm col-lg-1">Search<i class="fa fa-search ml-1"></i></button>
+                </div>
+            </div>
+        </form>
+
+        <div class="card-header p-3">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="mb-0 skewed skewed-yellow text-dark d-inline-block text-uppercase ls-1">All Packages</h3>
+                </div>
+                <div class="col text-right">
+                    <a asp-action="Create" class="btn btn-create">New</a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body px-0 pb-2">
+            <div class="">
+
+                <table class="table align-items-center table-responsive table-striped table-bordered" id="datatable-basic">
+                    <thead class="thead-light">
+                        <tr>
+
+                            <th>
+                                Catagory
+                            </th>
+
+                            <th>
+                                Request Date
+                            </th>
+
+                            <th>
+                                From
+                            </th>
+                            <th>
+                                To
+                            </th>
+                            <th>
+                                Details
+                            </th>
+                              <th>
+                                Address
+                            </th>
+
+                            <th>
+                                Phone No
+                            </th>
+                            <th>
+                                Track. No
+                            </th>
+
+
+                            <th>
+                                Weight
+                            </th>
+                            <th>
+                                Dimension
+                            </th>
+
+                            <th>
+                                Product Price
+                            </th>
+                            <th>
+                                Delivary Price
+                            </th>
+                            <th>
+                                Delivery Man
+                            </th>
+                            <th>
+                                Delivery Man ID
+                            </th>
+                            <th>
+                                Delivery Date
+                            </th>
+                            <th>
+                                Remarks
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ViewBag.Packages)
+                        {
+                        <tr>
+
+                            <td>
+                                @item.PackageCatagory.Name
+                            </td>
+                            @if (item.PickUpRequest.RequestDate == default(DateTime))
+                            {
+                                <td>
+                                    N/A
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @String.Format("{0:dd-MM-yyyy}", item.PickUpRequest.RequestDate)
+                                </td>
+                            }
+
+                            <td>
+                                @item.PickUpRequest.LocationFrom.Name
+                            </td>
+                            <td>
+                                @item.LocationTo.Name
+                            </td>
+                            <td>
+                                @item.Details
+                            </td>
+
+                             <td>
+                                @item.Address
+                            </td>
+
+
+                            <td>
+                                @item.PhoneNumber
+                            </td>
+                            @if (item.TrackingNumber != null)
+                            {
+                                <td>@item.TrackingNumber</td>
+                            }
+                            else
+                            {
+                                <td>N/A</td>
+                            }
+                            @if (item.Weight != null)
+                            {
+                                <td>@item.Weight</td>
+                            }
+                            else
+                            {
+                                <td>N/A</td>
+                            }
+                            @if (item.Dimension != null)
+                            {
+                                <td>@item.Dimension</td>
+                            }
+                            else
+                            {
+                                <td>N/A</td>
+                            }
+
+                            @if (item.ProductPrice != null)
+                            {
+                                <td>@item.ProductPrice</td>
+                            }
+                            else
+                            {
+                                <td>N/A</td>
+                            }
+                            @if (item.Price != null)
+                            {
+                                <td>@item.Price</td>
+                            }
+                            else
+                            {
+                                <td>N/A</td>
+                            }
+                            @if (item.DeliveryMan != null)
+                            {
+                                <td>@item.DeliveryMan.Name</td>
+                            }
+                            else
+                            {
+                                <td>N/A</td>
+                            }
+                            @if (item.DeliveryMan != null)
+                            {
+                                <td>@item.DeliveryMan.DeliveryManIdNo</td>
+                            }
+                            else
+                            {
+                                <td>N/A</td>
+                            }
+                            @if (item.DeliveryDate == default(DateTime))
+                            {
+                                <td>
+                                    N/A
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @String.Format("{0:dd-MM-yyyy}", item.DeliveryDate)
+                                </td>
+                            }
+                            <td>@item.Remarks</td>
+                            <td class="text-center">
+                                <div class="btn-group">
+                                  
+
+                                   @if (item.Status == 4)
+                                    {
+                                        <input class="btn btn-greenyellow btn-sm" type="button" value="Enlisted" />
+                                        <a class="btn btn-default btn-sm" asp-action="GeneratedBill" asp-route-id="@item.Id">Bill</a>
+                                    }
+
+
+
+                                    else if (item.Status == 5)
+                                    {
+                                        <input class="btn btn-warning btn-sm" type="button" value="Pending" />
+                                        // <label class="btn btn-success btn-sm">Shipped</label>
+                                        <a class="btn btn-default btn-sm" asp-action="GeneratedBill" asp-route-id="@item.Id">Bill</a>
+                                    }
+                                    else if (item.Status == 6)
+                                    {
+                                        <input class="btn btn-success btn-sm" type="button" value="Delivered" />
+                                        <a class="btn btn-default btn-sm" asp-action="GeneratedBill" asp-route-id="@item.Id">Bill</a>
+                                    }
+
+                                    else if (item.Status == 7)
+                                    {
+                                        <input class="btn btn-success btn-sm" type="button" value="Partially Delivared" />
+                                        <a class="btn btn-default btn-sm" asp-action="GeneratedBill" asp-route-id="@item.Id">Bill</a>
+                                    }
+                                    else if (item.Status == 8)
+                                    {
+                                        <input class="btn btn-danger btn-sm" type="button" value="Returned" />
+                                        <a class="btn btn-default btn-sm" asp-action="GeneratedBill" asp-route-id="@item.Id">Bill</a>
+                                    }
+
+
+
+                                </div>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script asp-append-version="true" type="text/javascript" src="~/vendor/datatable/js/jquery.dataTables.min.js"></script>
+    <script asp-append-version="true" type="text/javascript" src="~/vendor/datatable/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/vendor/bootstrap-datepicker/bootstrap-datepicker.min.js" asp-append-version="true"></script>
+    <script type="text/javascript">
+
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

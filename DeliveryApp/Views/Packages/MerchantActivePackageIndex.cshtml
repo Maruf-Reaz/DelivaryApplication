@@ -1,0 +1,280 @@
+﻿@model IEnumerable<DeliveryApp.Models.Package>
+
+@{
+    ViewData["Title"] = "Active Packages";
+}
+
+@section Css {
+    @{await Html.RenderPartialAsync("_DataTableCssPartial");}
+}
+
+@section Sole {
+    <style>
+
+
+        .table tr th:last-child {
+            width: 160px;
+        }
+
+        .table tr th {
+            text-align: center;
+        }
+
+        .table tr td {
+            text-align: center;
+            text-wrap: initial;
+        }
+    </style>
+}
+
+<div class="container-fluid mt-4">
+    <div class="card animated fadeIn overflow-hidden">
+        <div class="card-header p-3">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="mb-0 skewed skewed-yellow text-dark d-inline-block text-uppercase ls-1">Active Packages</h3>
+                </div>
+               
+            </div>
+        </div>
+        <div class="card-body px-0 pb-2">
+            <div class="">
+
+                <table class="table align-items-center table-hover table-striped table-bordered table-responsive" id="datatable-basic">
+                    <thead class="thead-light">
+                        <tr>
+
+                            <th>
+                                Catagory
+                            </th>
+
+                            <th>
+                                Request Date
+                            </th>
+                            <th>
+                                P. Delivery Man
+                            </th>
+                            <th>
+                                P.  Delivery Man ID
+                            </th>
+                            <th>
+                                From
+                            </th>
+                            <th>
+                                To
+                            </th>
+                            <th>
+                                Details
+                            </th>
+                             <th>
+                                Address
+                            </th>
+
+
+                            <th>
+                                Phone No
+                            </th>
+                            <th>
+                                Track. No
+                            </th>
+
+
+                            <th>
+                                Weight
+                            </th>
+                            <th>
+                                Dimension
+                            </th>
+
+                            <th>
+                                Product Price
+                            </th>
+                            <th>
+                                Delivary Price
+                            </th>
+                            <th>
+                                Delivery Man
+                            </th>
+                            <th>
+                                Delivery Man ID
+                            </th>
+                            <th>
+                                Delivery Date
+                            </th>
+
+                            <th>
+                                Remarks
+                            </th>
+
+
+                            <th>
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                        <tr>
+
+                            <td>
+                                @item.PackageCatagory.Name
+                            </td>
+
+                            @if (item.PickUpRequest.RequestDate == default(DateTime))
+                            {
+                                <td>
+                                    N/A
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @String.Format("{0:dd-MM-yyyy}", item.PickUpRequest.RequestDate)
+                                </td>
+                            }
+                            @if (item.PickUpRequest.PickUpDeliveryMan != null)
+                            {
+                                <td>@item.PickUpRequest.PickUpDeliveryMan.Name</td>
+                            }
+                            else
+                            {
+                                <td>N/A</td>
+                            }
+                            @if (item.PickUpRequest.PickUpDeliveryMan != null)
+                            {
+                                <td>@item.PickUpRequest.PickUpDeliveryMan.DeliveryManIdNo</td>
+                            }
+                            else
+                            {
+                                <td>N/A</td>
+                            }
+                            <td>
+                                @item.PickUpRequest.LocationFrom.Name
+                            </td>
+                            <td>
+                                @item.LocationTo.Name
+                            </td>
+                            <td>
+                                @item.Details
+                            </td>
+
+                              <td>
+                                @item.Address
+                            </td>
+
+
+                            <td>
+                                @item.PhoneNumber
+                            </td>
+
+
+                            @if (item.TrackingNumber != null)
+                            {
+                                <td>@item.TrackingNumber</td>
+                            }
+                            else
+                            {
+                                <td>N/A</td>
+                            }
+                            @if (item.Weight != null)
+                            {
+                                <td>@item.Weight</td>
+                            }
+                            else
+                            {
+                                <td>N/A</td>
+                            }
+                            @if (item.Dimension != null)
+                            {
+                                <td>@item.Dimension</td>
+                            }
+                            else
+                            {
+                                <td>N/A</td>
+                            }
+
+
+                            @if (item.ProductPrice != null)
+                            {
+                                <td>@item.ProductPrice</td>
+                            }
+                            else
+                            {
+                                <td>N/A</td>
+                            }
+                            @if (item.Price != null)
+                            {
+                                <td>@item.Price</td>
+                            }
+                            else
+                            {
+                                <td>N/A</td>
+                            }
+                            @if (item.DeliveryMan != null)
+                            {
+                                <td>@item.DeliveryMan.Name</td>
+                            }
+                            else
+                            {
+                                <td>N/A</td>
+                            }
+                            @if (item.DeliveryMan != null)
+                            {
+                                <td>@item.DeliveryMan.DeliveryManIdNo</td>
+                            }
+                            else
+                            {
+                                <td>N/A</td>
+                            }
+                            @if (item.DeliveryDate == default(DateTime))
+                            {
+                                <td>
+                                    N/A
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    @String.Format("{0:dd-MM-yyyy}", item.DeliveryDate)
+                                </td>
+                            }
+
+                            <td>@item.Remarks</td>
+
+                            <td class="text-center">
+                                <div class="btn-group">
+                               
+                                    @if (item.Status == 4)
+                                    {
+                                        <input class="btn btn-greenyellow btn-sm" type="button" value="Enlisted" />
+                                        <a class="btn btn-default btn-sm" asp-action="GeneratedBill" asp-route-id="@item.Id">Bill</a>
+                                    }
+                                    else if (item.Status == 5)
+                                    {
+                                        <input class="btn btn-success btn-sm" type="button" value="Shipped" />
+                                        <a class="btn btn-default btn-sm" asp-action="GeneratedBill" asp-route-id="@item.Id">Bill</a>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script asp-append-version="true" type="text/javascript" src="~/vendor/datatable/js/jquery.dataTables.min.js"></script>
+    <script asp-append-version="true" type="text/javascript" src="~/vendor/datatable/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript">
+
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

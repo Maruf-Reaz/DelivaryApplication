@@ -1,0 +1,186 @@
+﻿@model IEnumerable<DeliveryApp.Models.PickUpRequest>
+
+@{
+    ViewData["Title"] = "Requests";
+}
+
+@section Css {
+    @{await Html.RenderPartialAsync("_DataTableCssPartial");}
+}
+
+@section Sole {
+    <style>
+
+
+        .table tr th:last-child {
+            width: 160px;
+        }
+
+        .table tr th {
+            text-align: center;
+        }
+
+        .table tr td {
+            text-align: center;
+        }
+    </style>
+}
+
+<div class="container-fluid mt-4">
+    <div class="card animated fadeIn overflow-hidden">
+        <div class="card-header p-3">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="mb-0 skewed skewed-yellow text-dark d-inline-block text-uppercase ls-1">Requests</h3>
+                </div>
+                <div class="col text-right">
+                    <a asp-action="Create" class="btn btn-create">New</a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body px-0 pb-2">
+            <div class="">
+
+                <table class="table align-items-center table-responsive-sm table-striped table-bordered" id="datatable-basic">
+                    <thead class="thead-light">
+                        <tr>
+
+                            <th>
+                                From
+                            </th>
+                            <th>
+                                Details
+                            </th>
+                            <th>
+                                Request Date
+                            </th>
+                            <th>
+                                Pickup Date
+                            </th>
+
+                            <th>
+                                Delivary Man Name
+                            </th>
+                            <th>
+                                Delivary Man Id
+                            </th>
+                            <th>
+                                Phone Number
+                            </th>
+
+
+                            <th class="text-center">
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    @item.LocationFrom.Name
+                                </td>
+                                <td>
+                                    @item.Details
+                                </td>
+                                @if (item.RequestDate == default(DateTime))
+                                {
+                                    <td>
+                                        N/A
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        @String.Format("{0:dd-MM-yyyy}", item.RequestDate)
+                                    </td>
+                                }
+                                @if (item.PickUpDate == default(DateTime))
+                                {
+                                    <td>
+                                        N/A
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        @String.Format("{0:dd-MM-yyyy}", item.PickUpDate)
+                                    </td>
+                                }
+
+                                @if (item.PickUpDeliveryMan != null)
+                                {
+                                    <td>@item.PickUpDeliveryMan.Name</td>
+                                    <td>@item.PickUpDeliveryMan.DeliveryManIdNo</td>
+                                    <td>@item.PickUpDeliveryMan.PhoneNumber</td>
+                                }
+                                else
+                                {
+                                    <td>N/A</td>
+                                    <td>N/A</td>
+                                    <td>N/A</td>
+                                }
+
+                                <td class="text-center">
+                                    <div class="btn-group">
+                                        @if (item.Status == 0)
+                                        {
+                                            <a class="btn btn-greenyellow btn-sm" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                                            <a class="btn btn-success btn-sm" asp-action="ForwardToAdmin" asp-route-id="@item.Id">Forward</a>
+                                        }
+                                        else if (item.Status == 1)
+                                        {
+                                            <input type="button" class="btn btn-warning" value="Pending">
+                                        }
+
+
+                                        else if (item.Status == 2)
+                                        {
+                                            <input type="button" class="btn btn-success" value="Accepted">
+                                        }
+
+                                        else if (item.Status == 3)
+                                        {
+                                            <input type="button" class="btn btn-success" value="Picked Up">
+                                        }
+
+
+
+                                        else if (item.Status == 4)
+                                        {
+                                            <a class="btn btn-default btn-sm" asp-controller="Packages" asp-action="CreatePackages" asp-route-id="@item.Id">Packages</a>
+                                        }
+
+
+                                        else if (item.Status == 404)
+                                        {
+                                            <input type="button" class="btn btn-danger" value="Decliend">
+                                        }
+
+
+
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script asp-append-version="true" type="text/javascript" src="~/vendor/datatable/js/jquery.dataTables.min.js"></script>
+    <script asp-append-version="true" type="text/javascript" src="~/vendor/datatable/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript">
+
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

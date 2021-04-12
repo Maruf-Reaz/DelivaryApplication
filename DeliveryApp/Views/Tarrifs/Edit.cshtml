@@ -1,0 +1,58 @@
+﻿@model DeliveryApp.Models.Tarrif
+@{
+    ViewData["Title"] = "Edit Tarrif";
+}
+
+<div class="container-fluid mt-4">
+    <div class="card mb-4 animated fadeIn">
+        <div class="card-header p-3">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="mb-0 skewed skewed-yellow text-dark d-inline-block text-uppercase ls-1">Edit Tarrif</h3>
+                </div>
+                <div class="col text-right">
+                    <a asp-action="Index" class="btn btn-back">Back</a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-3">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="row">
+                    <input type="hidden" asp-for="Id" />
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-control-label text-dark ls-1 text-uppercase">Select Catagory</label>
+                            <select asp-for="PackageCatagoryId" class="form-control" data-toggle="select" asp-items="ViewBag.PackageCatagoryId"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-control-label text-dark ls-1 text-uppercase">From</label>
+                            <select asp-for="LocationFromId" class="form-control" data-toggle="select" asp-items="ViewBag.LocationFromId"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-control-label text-dark ls-1 text-uppercase">To</label>
+                            <select asp-for="LocationToId" class="form-control" data-toggle="select" asp-items="ViewBag.LocationToId"></select>
+                        </div>
+                    </div>
+                    
+                  
+                    <div class="col-lg-12">
+                        <div class="form-group mb-0">
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

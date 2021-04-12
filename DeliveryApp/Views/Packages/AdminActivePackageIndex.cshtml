@@ -1,0 +1,427 @@
+﻿@model IEnumerable<DeliveryApp.Models.Package>
+
+@{
+    ViewData["Title"] = "Active Packages";
+}
+@section Css {
+
+    <link asp-append-version="true" type="text/css" rel="stylesheet" href="~/vendor/select2/select2.min.css" />
+    @{await Html.RenderPartialAsync("_DataTableCssPartial");}
+}
+
+@section Sole {
+    <style>
+
+
+        .table tr th:last-child {
+            width: 160px;
+        }
+
+        .table tr th {
+            text-align: center;
+        }
+
+        .table tr td {
+            text-align: center;
+            text-wrap: initial;
+        }
+    </style>
+}
+
+<div class="container-fluid mt-4">
+    <div class="card animated fadeIn overflow-hidden">
+        <div class="card-header p-3">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="mb-0 skewed skewed-yellow text-dark d-inline-block text-uppercase ls-1">Active Packages</h3>
+                </div>
+
+            </div>
+        </div>
+        <div class="card-body px-0 pb-2">
+            <div class="">
+
+                <table class="table align-items-center table-hover table-striped table-bordered table-responsive" id="datatable-basic">
+                    <thead class="thead-light">
+                        <tr>
+
+                            <th>
+                                Catagory
+                            </th>
+                            <th>
+                                Merchant Name
+                            </th>
+                            <th>
+                                Marchent ID
+                            </th>
+
+                            <th>
+                                Request Date
+                            </th>
+                            <th>
+                                P. Delivery Man
+                            </th>
+                            <th>
+                                P.  Delivery Man ID
+                            </th>
+                            <th>
+                                From
+                            </th>
+                            <th>
+                                To
+                            </th>
+                            <th>
+                                Details
+                            </th>
+                            <th>
+                                Address
+                            </th>
+                            <th>
+                                Phone No
+                            </th>
+                            <th>
+                                Track. No
+                            </th>
+
+
+                            <th>
+                                Weight
+                            </th>
+                            <th>
+                                Dimension
+                            </th>
+                            <th>
+                                Product Price
+                            </th>
+                            <th>
+                                Delivary Price
+                            </th>
+                            <th>
+                                Delivery Man
+                            </th>
+                            <th>
+                                Delivery Man ID
+                            </th>
+
+                            <th>
+                                Delivery Date
+                            </th>
+                            <th>
+                                Remarks
+                            </th>
+                            <th>
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    <input type="hidden" class="id" name="name" value=" @item.Id" />
+                                    <input type="hidden" class="dmId" name="name" value=" @item.DeliveryManId" />
+
+                                    @item.PackageCatagory.Name
+                                </td>
+                                <td>
+                                    @item.PickUpRequest.Merchant.Name
+                                </td>
+                                <td>
+                                    @item.PickUpRequest.Merchant.MerchantIdNo
+                                </td>
+
+
+
+
+                                @if (item.PickUpRequest.RequestDate == default(DateTime))
+                                {
+                                    <td>
+                                        N/A
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        @String.Format("{0:dd-MM-yyyy}", item.PickUpRequest.RequestDate)
+                                    </td>
+                                }
+                                @if (item.PickUpRequest.PickUpDeliveryMan != null)
+                                {
+                                    <td>@item.PickUpRequest.PickUpDeliveryMan.Name</td>
+                                }
+                                else
+                                {
+                                    <td>N/A</td>
+                                }
+                                @if (item.PickUpRequest.PickUpDeliveryMan != null)
+                                {
+                                    <td>@item.PickUpRequest.PickUpDeliveryMan.DeliveryManIdNo</td>
+                                }
+                                else
+                                {
+                                    <td>N/A</td>
+                                }
+
+
+                                <td>
+                                    @item.PickUpRequest.LocationFrom.Name
+                                </td>
+                                <td>
+                                    @item.LocationTo.Name
+                                </td>
+                                <td>
+                                    @item.Details
+                                </td>
+                                <td>
+                                    @item.Address
+                                </td>
+                                <td>
+                                    @item.PhoneNumber
+                                </td>
+
+
+                                @if (item.TrackingNumber != null)
+                                {
+                                    <td>@item.TrackingNumber</td>
+                                }
+                                else
+                                {
+                                    <td>N/A</td>
+                                }
+                                @if (item.Weight != null)
+                                {
+                                    <td>@item.Weight</td>
+                                }
+                                else
+                                {
+                                    <td>N/A</td>
+                                }
+                                @if (item.Dimension != null)
+                                {
+                                    <td>@item.Dimension</td>
+                                }
+                                else
+                                {
+                                    <td>N/A</td>
+                                }
+                                @if (item.ProductPrice != null)
+                                {
+                                    <td>@item.ProductPrice</td>
+                                }
+                                else
+                                {
+                                    <td>N/A</td>
+                                }
+                                @if (item.Price != null)
+                                {
+                                    <td>@item.Price</td>
+                                }
+                                else
+                                {
+                                    <td>N/A</td>
+                                }
+                                @if (item.DeliveryMan != null)
+                                {
+                                    <td>@item.DeliveryMan.Name</td>
+                                }
+                                else
+                                {
+                                    <td>N/A</td>
+                                }
+
+                                @if (item.DeliveryMan != null)
+                                {
+                                    <td>@item.DeliveryMan.DeliveryManIdNo</td>
+                                }
+                                else
+                                {
+                                    <td>N/A</td>
+                                }
+
+
+
+                                @if (item.DeliveryDate == default(DateTime))
+                                {
+                                    <td>
+                                        N/A
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        @String.Format("{0:dd-MM-yyyy}", item.DeliveryDate)
+                                    </td>
+                                }
+
+                                <td>@item.Remarks</td>
+                                <td class="text-center">
+                                    <div class="btn-group">
+                                        @if (item.Status == 1)
+                                        {
+                                            <a class="btn btn-success btn-sm" asp-action="ApproveByAdmin" asp-route-id="@item.Id">Approve</a>
+
+                                            <a class="btn btn-danger btn-sm" asp-action="DeclineByAdmin" asp-route-id="@item.Id">Decline</a>
+
+                                        }
+                                        else if (item.Status == 2)
+                                        {
+                                            <a class="btn btn-greenyellow btn-sm pickupButton">Pick Up</a>
+                                        }
+                                        else if (item.Status == 3)
+                                        {
+                                            <a class="btn btn-greenyellow btn-sm" asp-action="AddDetails" asp-route-id="@item.Id">Add Details</a>
+                                        }
+                                        else if (item.Status == 4)
+                                        {
+                                            if (item.DeliveryMan == null)
+                                            {
+                                                <a class="btn btn-danger btn-sm" asp-controller="DeliveryMen" asp-action="Index">Assign D.M</a>
+                                            }
+                                            else
+                                            {
+                                                <a class="btn btn-warning btn-sm" asp-action="ShippedByAdmin" asp-route-id="@item.Id">Ship</a>
+                                                <a class="btn btn-default btn-sm" asp-action="GeneratedBill" asp-route-id="@item.Id">Bill</a>
+
+                                            }
+
+
+
+
+
+                                        }
+                                        else if (item.Status == 5)
+                                        {
+                                            <a class="btn btn-warning btn-sm changeDM" >Change Delivary Man</a>
+                                            <a class="btn btn-success btn-sm" asp-action="DeleveredByAdmin" asp-route-id="@item.Id">Delivered</a>
+
+                                            <a class="btn btn-primary btn-sm" asp-action="PartiallyDeleveredByAdmin" asp-route-id="@item.Id">Partially Delivered</a>
+
+                                            <a class="btn btn-danger btn-sm" asp-action="ReturnedByAdmin" asp-route-id="@item.Id">Returned</a>
+
+
+                                            <a class="btn btn-default btn-sm" asp-action="GeneratedBill" asp-route-id="@item.Id">Bill</a>
+
+                                        }
+
+
+
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script asp-append-version="true" type="text/javascript" src="~/vendor/datatable/js/jquery.dataTables.min.js"></script>
+    <script asp-append-version="true" type="text/javascript" src="~/vendor/datatable/js/dataTables.bootstrap4.min.js"></script>
+    <script asp-append-version="true" type="text/javascript" src="~/vendor/select2/select2.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.changeDM').on('click', function () {
+                var row = $(this).closest('tr');
+                var id = row.find('.id').val();
+                var dmId = row.find('.dmId').val();
+                var dmData = '';
+                var url = '@Url.Action("GetDelivaryMen", "DeliveryMen")';
+                dmData += '';
+                $.when(
+
+                $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    url: url,
+                    data: {
+
+                    },
+                    cache: false,
+                    success: function (objects) {
+                        $.each(objects, function (index, object) {
+
+                            if (objects != null) {
+                                if (dmId == object.id) {
+                                    dmData += '<option selected value="' + object.id + '">' + object.name + ' </option>';
+                                }
+                                else {
+                                    dmData += '<option value="' + object.id + '">' + object.name + ' </option>';
+                                }
+
+                               
+                            }
+                        });
+                    }
+                }),
+                ).then(function () {
+
+                $.confirm({
+                    title: 'Prompt!',
+                    theme: 'modern',
+                    animation: 'zoom',
+                    closeAnimation: 'zoom',
+                    backgroundDismiss: true,
+                    backgroundDismissAnimation: 'shake',
+                    closeIcon: true,
+                    content: '' +
+                        '<form action="" class="formName">' +
+                        '<div class="form-group">' +
+                        '<label class="text-danger">Please select a new Delivary Man</label>' +
+
+                        '<select id = "delivaryManId" class="form-control js-single">' + dmData + '</select>'+
+                        '</div>' +
+                        '</form>',
+                    buttons: {
+                        formSubmit: {
+                            text: 'Submit',
+                            btnClass: 'btn-blue',
+                            action: function () {
+                                var delivaryManId = this.$content.find('#delivaryManId').val();
+                                if ( delivaryManId == 0) {
+
+                                } else
+
+                                {
+                                    var url = '@Url.Action("AddDelivaryMan", "DeliveryMen")';
+                                    $.ajax({
+                                        type: "POST",
+                                        dataType: 'json',
+                                        url: url,
+                                        data: {
+                                            id: id,
+                                            delivaryManId: delivaryManId,
+                                        },
+                                        cache: false,
+                                        success: function (result) {
+                                            if (result) {
+                                                location.reload();
+                                            }
+
+                                        }
+                                    });
+                                }
+                            // submit
+                            }
+                        },
+                    cancel: function () {
+                        //close
+                        },
+                    },
+                    backgroundDismiss: true,
+
+                });
+
+                    });
+            });
+        });
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

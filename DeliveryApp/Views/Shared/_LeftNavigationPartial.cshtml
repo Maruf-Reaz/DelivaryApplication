@@ -1,0 +1,181 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<DeliveryApp.Models.Common.Authentication.ApplicationUser> UserManager
+@{
+    var user = await UserManager.FindByNameAsync(Context.User.Identity.Name);
+}
+
+<nav class="sidenav navbar navbar-vertical fixed-left navbar-expand-xs navbar-light" id="sidenav-main">
+    <div class="scrollbar-inner">
+        <div class="sidenav-header d-flex align-items-center">
+            <a class="navbar-brand" asp-controller="Account" asp-action="Public">
+                <img asp-append-version="true" src="~/asset/img/tcms.png" class="navbar-brand-img" alt="...">
+            </a>
+            <div class="mx-auto">
+                <div class="sidenav-toggler active" data-action="sidenav-unpin" data-target="#sidenav-main">
+                    <div class="sidenav-toggler-inner">
+                        <i class="sidenav-toggler-line"></i>
+                        <i class="sidenav-toggler-line"></i>
+                        <i class="sidenav-toggler-line"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="navbar-inner">
+            <div class="collapse navbar-collapse" id="sidenav-collapse-main">
+                <ul class="navbar-nav">
+                    @if (await UserManager.IsInRoleAsync(user, "Admin"))
+                    {
+                        <li class="nav-item nav_level0">
+                            <a class="nav-link position-relative" asp-controller="Home" asp-action="Index">
+                                <i class="far fa-tachometer-alt text-gray"></i>
+                                <span class="nav-link-text text-nowrap text-dark">Dashboard</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item nav_level0">
+
+                            <a class="nav-link position-relative" asp-controller="PickUpRequests" asp-action="AdminIndex">
+                                <i class="far fa-tachometer-alt text-gray"></i>
+                                <span class="nav-link-text text-nowrap text-dark">Requests</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#super-admin-option2" data-toggle="collapse" role="button"
+                               aria-expanded="false" aria-controls="navbar-examples">
+                                <i class="far fa-paste text-gray"></i>
+                                <span class="nav-link-text text-dark text-nowrap position-relative">Packages</span>
+                            </a>
+                            <div class="collapse nav_level1" id="super-admin-option2">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a asp-controller="Packages" asp-action="AdminActivePackageIndex" class="nav-link text-nowrap">Active Packages</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-controller="Packages" asp-action="AdminAllPackageIndex" class="nav-link text-nowrap">All Packages</a>
+                                    </li>
+
+
+
+
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#super-admin-option3" data-toggle="collapse" role="button"
+                               aria-expanded="false" aria-controls="navbar-examples">
+                                <i class="far fa-paste text-gray"></i>
+                                <span class="nav-link-text text-nowrap text-dark position-relative">Merchants</span>
+                            </a>
+                            <div class="collapse nav_level1" id="super-admin-option3">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link text-nowrap" asp-controller="Merchants" asp-action="ActiveIndex">
+                                            Active Merchants
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-nowrap" asp-controller="Merchants" asp-action="PendingIndex">
+                                            Pending Merchants
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link text-nowrap" asp-controller="Merchants" asp-action="DisabledIndex">
+                                            Disabled Merchants
+                                        </a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                        </li>
+
+                        <li class="nav-item nav_level0">
+                            <a class="nav-link position-relative" asp-controller="PackageCatagories" asp-action="Index">
+                                <i class="far fa-clipboard text-gray"></i>
+                                <span class="nav-link-text text-nowrap text-dark">Package Catagories</span>
+                            </a>
+                        </li>
+                        <li class="nav-item nav_level0">
+                            <a class="nav-link position-relative" asp-controller="DeliveryMen" asp-action="Index">
+                                <i class="far fa-truck-container text-gray"></i>
+                                <span class="nav-link-text text-nowrap text-dark">Delivery Men</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item nav_level0">
+                            <a class="nav-link position-relative" asp-controller="Locations" asp-action="Index">
+                                <i class="far fa-truck-container text-gray"></i>
+                                <span class="nav-link-text text-nowrap text-dark">Locations</span>
+                            </a>
+                        </li>
+                        <li class="nav-item nav_level0">
+                            <a class="nav-link position-relative" asp-controller="Tarrifs" asp-action="Index">
+                                <i class="far fa-truck-container text-gray"></i>
+                                <span class="nav-link-text text-nowrap text-dark">Tarrifs</span>
+                            </a>
+                        </li>
+
+
+
+
+
+                    }
+
+                    else if (await UserManager.IsInRoleAsync(user, "Merchant"))
+                    {
+                        <li class="nav-item nav_level0">
+                            <a class="nav-link position-relative" asp-controller="Home" asp-action="Index">
+                                <i class="far fa-tachometer-alt text-gray"></i>
+                                <span class="nav-link-text text-nowrap text-dark">Dashboard</span>
+                            </a>
+                        </li>
+                        <li class="nav-item nav_level0">
+
+                            <a class="nav-link position-relative" asp-controller="PickUpRequests" asp-action="MarchantIndex">
+                                <i class="far fa-tachometer-alt text-gray"></i>
+                                <span class="nav-link-text text-nowrap text-dark">My Requests</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#super-admin-option3" data-toggle="collapse" role="button"
+                               aria-expanded="false" aria-controls="navbar-examples">
+                                <i class="far fa-paste text-gray"></i>
+                                <span class="nav-link-text text-nowrap position-relative">My Packages</span>
+                            </a>
+                            <div class="collapse nav_level1" id="super-admin-option3">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a asp-controller="Packages" asp-action="MerchantActivePackageIndex" class="nav-link text-nowrap">Active Packages</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-controller="Packages" asp-action="MerchantAllPackageIndex" class="nav-link text-nowrap">All Packages</a>
+                                    </li>
+
+
+
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item nav_level0">
+                            <a class="nav-link position-relative" asp-controller="Tarrifs" asp-action="MarchentTarrifIndex">
+                                <i class="far fa-truck-container text-gray"></i>
+                                <span class="nav-link-text text-nowrap text-dark">Tarrifs</span>
+                            </a>
+                        </li>
+
+                    }
+                    else
+                    {
+                        <li class="nav-item nav_level0">
+                            <a class="nav-link position-relative" asp-controller="Home" asp-action="Index">
+                                <i class="far fa-tachometer-alt text-gray"></i>
+                                <span class="nav-link-text text-nowrap text-dark">Dashboard</span>
+                            </a>
+                        </li>
+
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
